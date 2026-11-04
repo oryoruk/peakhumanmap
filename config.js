@@ -4,7 +4,7 @@ var config = {
     style: 'mapbox://styles/oryoruk/cmllrywbx002601qyg5749ogf',//copy
 
     // leave commented to use Mapbox Standard Style
-    accessToken: 'pk.eyJ1Ijoib3J5b3J1ayIsImEiOiJjbGRpYnk5d3EwbTVwM3ZzMjgwY3o3bWZuIn0.7S8bWX09nfM9nFRkgd3bjw',
+    accessToken: 'pk.eyJ1Ijoib3J5b3J1ayIsImEiOiJjbXcyZ2xjOHQwMG50MnhxNjRlY2ozYTNkIn0.4K5DUGWEjj8eU0lBfwRNdg',
     showMarkers: false,
     // markerColor: '#3FB1CE',
     // projection: 'equirectangular',
