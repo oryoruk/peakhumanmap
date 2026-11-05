@@ -219,6 +219,10 @@
         .step > div, #header, #footer {
             pointer-events: auto;
         }
+        /* give the +/− zoom buttons some room from the window edge */
+        .mapboxgl-ctrl-top-right .mapboxgl-ctrl {
+            margin: 24px 24px 0 0;
+        }
     </style>
 </head>
 
@@ -398,8 +402,30 @@
             dragPan: true,            // click-drag spins the globe
             dragRotate: false,        // set true to also allow right-drag tilt/bearing
             touchZoomRotate: false,
+            minZoom: 1,               // keep readers from zooming out too far
+            maxZoom: 8,               // ...or in too far (chapters use 2.3–7)
             projection: config.projection
         });
+
+        // +/− zoom buttons
+        map.addControl(
+            new mapboxgl.NavigationControl({ showCompass: false }),
+            'top-right'
+        );
+
+        // Ctrl/⌘ + wheel (and trackpad pinch, which browsers report as Ctrl + wheel)
+        // zooms the map; a plain wheel/swipe keeps scrolling the story.
+        map.getCanvasContainer().addEventListener('wheel', function (e) {
+            if (!(e.ctrlKey || e.metaKey)) return;
+            e.preventDefault();               // stop the browser's own page zoom
+            var z = map.getZoom() - e.deltaY * 0.01;
+            z = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), z));
+            map.easeTo({
+                zoom: z,
+                around: map.unproject([e.offsetX, e.offsetY]),   // zoom toward the cursor
+                duration: 0
+            });
+        }, { passive: false });
 
         map.on('style.load', () => {
             // Hide administrative boundaries
@@ -473,7 +499,56 @@
                     }
                 });
             };
-            let spinGlobe; // Declare spinGlobe outside to access it globally
+            // Globe spin (chapters with spinAnimation: true).
+            // Each 1-second step starts only when the previous one ends ('moveend'),
+            // so window resizes or zoom clicks never pile up competing animations.
+            // The spin pauses while the reader drags the globe and resumes afterwards.
+            const SPIN_SECONDS_PER_TURN = 180;
+            let spinning = false;
+            let userInteracting = false;
+
+            function spinStep() {
+                if (!spinning || userInteracting || map.isEasing()) return;
+                const center = map.getCenter();
+                center.lng -= 360 / SPIN_SECONDS_PER_TURN;   // degrees per 1-second step
+                map.easeTo({ center: center, duration: 1000, easing: (t) => t });
+            }
+
+            let spinPending = null;     // chapter element waiting for its fly-in to finish
+            let currentChapter = null;
+            let restarting = false;
+
+            map.on('moveend', () => {
+                if (restarting) return;
+                if (spinPending) {
+                    if (spinPending.classList.contains('active')) spinning = true;
+                    spinPending = null;
+                }
+                spinStep();
+            });
+
+            // Mapbox animations jump if the window is resized mid-animation
+            // (they keep using the old window size). Restart them from the current view.
+            map.on('resize', () => {
+                if (!map.isEasing()) return;
+                restarting = true;
+                map.stop();
+                restarting = false;
+                if (spinning) {
+                    spinStep();
+                } else if (currentChapter) {
+                    map[currentChapter.mapAnimation || 'flyTo'](currentChapter.location);
+                }
+            });
+            map.on('mousedown', () => { userInteracting = true; });
+            map.on('touchstart', () => { userInteracting = true; });
+            map.on('dragend', () => { userInteracting = false; spinStep(); });
+            window.addEventListener('mouseup', () => {
+                if (userInteracting) { userInteracting = false; spinStep(); }
+            });
+            window.addEventListener('touchend', () => {
+                if (userInteracting) { userInteracting = false; spinStep(); }
+            });
 // setup the instance, pass callback functions
             scroller
                 .setup({
@@ -482,14 +557,14 @@
                     progress: true
                 })
                 .onStepEnter(async response => {
-                    if (spinGlobe) {
-                        clearInterval(spinGlobe);
-                    }
+                    spinning = false;   // stop any spin before moving to the new chapter
+                    spinPending = null;
 
                     var current_chapter = config.chapters.findIndex(chap => chap.id === response.element.id);
                     var chapter = config.chapters[current_chapter];
 
                     response.element.classList.add('active');
+                    currentChapter = chapter;
                     map[chapter.mapAnimation || 'flyTo'](chapter.location);
 
                     if (config.showMarkers) {
@@ -513,25 +588,8 @@
                     }
 
                     if (chapter.spinAnimation) {
-                        map.once('moveend', () => {
-                            const spinDuration = 180000; // 10 seconds for a full spin
-                            const intervalDuration = 100; // Interval in milliseconds
-                            const decrement = 360 / (spinDuration / intervalDuration); // Longitude increment per interval
-
-                            let currentCenter = map.getCenter();
-                            spinGlobe = setInterval(() => {
-                                currentCenter.lng = (currentCenter.lng - decrement) % 360; // Keep longitude within 0-360
-                                map.easeTo({
-                                    center: currentCenter,
-                                    duration: intervalDuration,
-                                    easing: (t) => t
-                                });
-                            }, intervalDuration);
-
-                            map.once('remove', () => {
-                                clearInterval(spinGlobe); // Stop spinning when the map is removed
-                            });
-                        });
+                        // start spinning once the fly-in to this chapter has finished
+                        spinPending = response.element;
                     }
 
                     if (chapter.onChapterEnter.length > 0) {
