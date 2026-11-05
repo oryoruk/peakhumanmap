@@ -211,6 +211,14 @@
         .mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan .mapboxgl-canvas {
             touch-action: unset;
         }
+        /* let mouse events fall through to the map... */
+        #story, #features, .step {
+            pointer-events: none;
+        }
+        /* ...except on the visible text cards, header and footer */
+        .step > div, #header, #footer {
+            pointer-events: auto;
+        }
     </style>
 </head>
 
@@ -381,7 +389,15 @@
             zoom: config.chapters[0].location.zoom,
             bearing: config.chapters[0].location.bearing,
             pitch: config.chapters[0].location.pitch,
-            interactive: false,
+            // interactive: false,
+            interactive: true,
+            scrollZoom: false,        // mouse wheel keeps scrolling the story
+            doubleClickZoom: false,
+            boxZoom: false,
+            keyboard: false,
+            dragPan: true,            // click-drag spins the globe
+            dragRotate: false,        // set true to also allow right-drag tilt/bearing
+            touchZoomRotate: false,
             projection: config.projection
         });
 
