@@ -75,13 +75,14 @@ var config = {
             rotateAnimation: false,
             spinAnimation: false,
             callback: '',
+            mapTitle: 'Athens in 431 BC',   // shown in the box at bottom right
             legend: [
                 {
-                    layer: 'Athenian Territory',
+                    layer: 'Athenian territory',
                     color: '#b84747'
                 },
                 {
-                    layer: 'Athens’s Allies',
+                    layer: 'Delian League',
                     color: '#6e51d6'
                 }
 
@@ -147,6 +148,7 @@ var config = {
             mapAnimation: 'flyTo',
             rotateAnimation: false,
             callback: '',
+            mapTitle: 'Rome in 117',   // shown in the box at bottom right
             legend: [],
             onChapterEnter: [
                 ...["rome-117-region-labels", "rome-117-labels", "rome-117"].map(layer => ({
@@ -184,6 +186,7 @@ var config = {
             mapAnimation: 'easeTo',
             rotateAnimation: false,
             callback: '',
+            mapTitle: 'The Abbasid Caliphate, 9th century',   // shown in the box at bottom right
             legend: [],
             onChapterEnter: [
                 ...["abbasid-caliphate","abbasid-9thcen-labels","abbasid-9thcen-region-labels"].map(layer => ({
@@ -219,6 +222,7 @@ var config = {
             mapAnimation: 'flyTo',
             rotateAnimation: false,
             callback: '',
+            mapTitle: 'Song China, early 12th century',   // shown in the box at bottom right
             legend: [],
             onChapterEnter: [
                 ...["songchina-early12c","songchina-early12c-labels","songchina-early12c-region-labels"].map(layer => ({
@@ -253,6 +257,7 @@ var config = {
             mapAnimation: 'flyTo',
             rotateAnimation: false,
             callback: '',
+            mapTitle: 'Italy in 1494',   // shown in the box at bottom right
             legend: [],
             onChapterEnter: [
                 ...["italy-1494-asti","italy-1494-ferrara","italy-1494-florence","italy-1494-genoa","italy-1494-labels","italy-1494-lucca","italy-1494-mantua","italy-1494-milan","italy-1494-modena","italy-1494-montferrat","italy-1494-naples","italy-1494-papal-states","italy-1494-saluzzo","italy-1494-sardinia","italy-1494-savoy","italy-1494-sicily","italy-1494-siena","italy-1494-venice","italy-1494-region-labels"].map(layer => ({
@@ -288,6 +293,7 @@ var config = {
             mapAnimation: 'easeTo',
             rotateAnimation: false,
             callback: '',
+            mapTitle: 'The Dutch Republic, mid-17th century',   // shown in the box at bottom right
             legend: [],
             onChapterEnter: [
                 ...["dutchrep-17thcen-region-labels", "dutchrep-17thcen-labels", "dutchrep-17thcen"].map(layer => ({
@@ -324,6 +330,7 @@ var config = {
             rotateAnimation: false,
             spinAnimation: true,
             callback: '',
+            mapTitle: 'The Anglosphere',   // shown in the box at bottom right
             legend: [],
             onChapterEnter: [
                 {

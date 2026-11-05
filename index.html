@@ -164,6 +164,17 @@
             margin: 0 0 5px;
         }
 
+        /* chapters whose text card is on the right get the box on the left instead */
+        .map-legend.on-left {
+            right: auto;
+            left: 20px;
+            bottom: 40px;   /* clear the Mapbox logo */
+        }
+
+        .map-legend .map-title:only-child {
+            margin: 0;   /* no gap below the title when there's no legend under it */
+        }
+
         .map-legend div {
             display: flex;
             align-items: center;
@@ -597,15 +608,23 @@
                     }
 
 
-                    if(chapter.legend.length>0){
-
-                        console.log("legend exists")
-                        document.getElementById('map-legend').style.display = 'block'; // Make legend visible
-                        document.getElementById('map-legend').innerHTML = '';
-                        chapter.legend.forEach(setLegend);
-                    }else
-                    {
-                        document.getElementById('map-legend').style.display = 'none'; // Hide legend
+                    // Map title + legend box (bottom right). Shows the chapter's mapTitle
+                    // and, below it, any legend items; hidden if the chapter has neither.
+                    var legendBox = document.getElementById('map-legend');
+                    var legendItems = chapter.legend || [];
+                    legendBox.innerHTML = '';
+                    legendBox.classList.toggle('on-left', chapter.alignment === 'right');  // keep it off the text card
+                    if (chapter.mapTitle || legendItems.length > 0) {
+                        if (chapter.mapTitle) {
+                            var mapTitle = document.createElement('h4');
+                            mapTitle.className = 'map-title';
+                            mapTitle.textContent = chapter.mapTitle;
+                            legendBox.appendChild(mapTitle);
+                        }
+                        legendItems.forEach(setLegend);
+                        legendBox.style.display = 'block';
+                    } else {
+                        legendBox.style.display = 'none';
                     }
                     if (config.auto) {
                         var next_chapter = (current_chapter + 1) % config.chapters.length;
