@@ -66,10 +66,10 @@ var config = {
                '<br><br>Athenians were also traders, constantly on the lookout for new ideas and methods from a thousand other Greek city-states and from other civilizations. Together, free speech and <a href="https://www.libertarianism.org/columns/ancient-greeces-legacy-liberty-economic-freedom-athens" target="_blank">free trade</a> turned Athens into the first culture to openly celebrate intellectual innovation. For the first time, philosophers stated explicitly that it was acceptable to see the world in new ways and to reach conclusions no one else had reached before. As this spirit of curiosity permeated Athenian society, it produced extraordinary advances across many fields, making Athens a pioneer in everything from ceramics and architecture to theater and historical inquiry.',
 
             location: {
-                center: [22.62348, 39.13560],
-                zoom: 6.48,
-                pitch: 49.53,
-                bearing: 25.6
+                center: [21.75735, 38.53923],
+                zoom: 6.95,
+                pitch: 47.53,
+                bearing: 27.2
             },
             mapAnimation: 'flyTo',
             rotateAnimation: false,
@@ -174,10 +174,10 @@ var config = {
                 '<br><br>Baghdad was also a city of learning, welcoming philosophers and scientists of all faiths and backgrounds. To draw on knowledge from across the world, the caliphs sponsored a vast <a href="https://www.libertarianism.org/podcasts/portraits-liberty/liberal-ideas-ibn-rushd" target="_blank">translation movement</a>, and scholars traveled far and wide to locate texts that could be rendered into Arabic. In doing so, they preserved much of the Greek intellectual heritage that might otherwise have been lost. We need look no further than the letter A to see our debt to this civilization: Arabic numerals, algebra, algorithm, arithmetic, average.' +
                 '<br><br>As Adam Smith put it, while Europe was still suffering through the dark ages, the tolerance of the early caliphs “revived the curiosity of mankind.” ',
             location: {
-                center: [32.64172, 36.93814],
-                zoom: 4.18,
-                pitch: 19,
-                bearing: 20.80,
+                center: [20.39556, 36.30052],
+                zoom: 4.02,
+                pitch: 22,
+                bearing: 23.20,
                 speed: 1,
                 curve: 1
             },
@@ -210,10 +210,10 @@ var config = {
             description: 'In 1764, Voltaire wrote that the Chinese, “when we were unable even to read, knew everything essentially useful of which we boast at the present day.” While somewhat exaggerated, China was indeed far more innovative than Europe a thousand years ago, already employing technologies such as paper, gunpowder, printing, and the magnetic compass. Under the Song dynasty in particular, China became the world’s leading technological and economic power. Intellectually, Song China was deeply shaped by <a href="https://www.libertarianism.org/media/free-thoughts/rituals-freedom-libertarian-themes-early-confucianism" target="_blank">Confucianism</a>, developing neo-Confucianism into a state-supported ideology rather than a single, enforced orthodoxy. ' +
                 '<br><br>Song emperors placed the military under civilian control and pursued policies that encouraged trade, mobility, and urbanization, thereby expanding the tax base. Farmers were granted property rights, which allowed them to experiment with new techniques and transform former luxuries such as rice and tea into mass consumer goods. Population growth and expanding cities followed, spurring manufacturing and technological progress. China’s vast production of iron and steel, along with innovative water- and pedal-powered textile machinery, would not be matched in Europe until the eighteenth century. Some economic historians have even suggested that China came close to an industrial revolution more than half a millennium before Britain. ',
             location: {
-                center: [113.44237, 30.40610],
-                zoom: 4.02,
+                center: [122.79477, 26.75312],
+                zoom: 5.08,
                 pitch: 0,
-                bearing: 18,
+                bearing: 16.46,
                 speed: 1
             },
             mapAnimation: 'flyTo',
@@ -245,10 +245,10 @@ var config = {
             description: 'Large empires could foster progress under enlightened rulers – but they could also stifle it when they had despotic ones. Europe followed a different path, shaped by a patchwork of independent cities and principalities and by a division between church and state. Italian republics such as Florence, Venice, and Siena carved out autonomy between Pope and Emperor, and through the rediscovery of Roman law began to think in terms of individual rights, legal institutions, and adjudication rather than warfare. In these republics, humanists valued libertas for both the individual and the city. ' +
                 '<br><br>Trade with the Arab world brought Italian city-states goods, books, and financial innovations, while Marco Polo’s tales of China’s immense wealth provided inspiration. Italians began to look back to ancient Greek and Roman art, architecture and literature for clues to similar success back home. With Arabic numerals, double-entry bookkeeping and banking, commerce evolved from buccaneering adventure into organized enterprise. The result was rising wealth, social mobility, and conspicuous investment in art, exemplified by figures such as Michelangelo and Leonardo da Vinci. It was, quite literally, a cultural Renaissance – a rebirth. ',
             location: {
-                center:  [8.03748, 42.70433],
-                zoom: 5.49,
-                pitch: 26.03,
-                bearing: 16
+                center:  [7.47376, 41.56590],
+                zoom: 5.98,
+                pitch: 32.49,
+                bearing: 11.66
             },
             mapAnimation: 'flyTo',
             rotateAnimation: false,
@@ -280,10 +280,10 @@ var config = {
                 '<br><br>At first, the Dutch struggle for independence seemed hopeless. They had no monarch, no unified church, no powerful aristocracy, and no formidable army or navy. They scarcely even had land, much of which had to be reclaimed from the sea, all while facing the constant threat of catastrophic flooding. These conditions forced the Dutch to become relentlessly innovative and tolerant, opening their markets to trade and finance and their borders to migrants who brought new skills and ideas. ' +
                 '<br><br>Incredibly, by the end of the Eighty Years’ War against Spain, the Dutch had built a strong, independent state and a military power of the first rank. Dutch merchants and financiers created the richest economy in history. Their commitment to <a href="https://www.libertarianism.org/topics/dutch-republic" target="_blank">religious freedom and press liberty</a>—and the relatively high degree of rights enjoyed by women, including contract and property rights—fueled a remarkable cultural flowering, with printing houses, scientists, and philosophers who helped ignite the <a href="https://www.libertarianism.org/topics/enlightenment" target="_blank">Enlightenment</a>, alongside artists of the caliber of Vermeer and Rembrandt. ',
             location: {
-                center: [7.16544, 51.28781],
-                zoom: 5.89,
-                pitch: -8.80,
-                bearing: 8.50
+                center: [7.82763, 51.19322],
+                zoom: 6.74,
+                pitch: 20.50,
+                bearing: 0
             },
             mapAnimation: 'easeTo',
             rotateAnimation: false,
