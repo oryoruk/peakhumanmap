@@ -144,44 +144,130 @@
         .step img {
             width: 100%;
         }
-        .map-legend {
-            position: fixed; /* Change to fixed positioning */
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            /*font-family: Arial, sans-serif;*/
-            font-size: 1.5em;
-            line-height: 30px;
-            z-index: 10; /* Ensure it stays above other elements */
-            pointer-events: none; /* Prevent interaction issues */
-            display: none;
+        /* ---------- Chapter navigation rail (right edge) ---------- */
+        #chapter-nav {
+            position: fixed;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: min(56vh, 440px);
+            width: 22px;
+            z-index: 10;
         }
-
-        .map-legend h4 {
-            margin: 0 0 5px;
+        .nav-track {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        /* chapters whose text card is on the right get the box on the left instead */
-        .map-legend.on-left {
-            right: auto;
-            left: 20px;
-            bottom: 40px;   /* clear the Mapbox logo */
+        .nav-line, .nav-fill {
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            margin-left: -1px;
+            top: 11px;
         }
-
-        .map-legend .map-title:only-child {
-            margin: 0;   /* no gap below the title when there's no legend under it */
+        .nav-line {
+            bottom: 11px;
+            background: rgba(31, 31, 31, 0.35);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);   /* stays visible on the dark globe */
         }
-
-        .map-legend div {
+        .nav-fill {
+            height: calc((100% - 22px) * var(--progress, 0));
+            background: #1f1f1f;
+            transition: height 0.3s, width 0.3s;
+        }
+        .nav-dot {
+            position: relative;
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            border: none;
+            background: none;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
+            justify-content: center;
         }
-
-        .map-legend span {
+        .nav-dot::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-sizing: border-box;
+            background: #fff;
+            border: 2px solid #1f1f1f;
+            transition: transform 0.15s;
+        }
+        .nav-dot.past::before {
+            background: #1f1f1f;
+        }
+        .nav-dot.active::before {
+            width: 14px;
+            height: 14px;
+            background: #1f1f1f;
+            box-shadow: 0 0 0 2px #fff;
+        }
+        .nav-dot:hover::before,
+        .nav-dot:focus-visible::before {
+            transform: scale(1.3);
+        }
+        .nav-tip {
+            position: absolute;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            background: #1f1f1f;
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.3;
+            padding: 4px 9px;
+            border-radius: 4px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s;
+        }
+        .nav-dot:hover .nav-tip,
+        .nav-dot:focus-visible .nav-tip {
+            opacity: 1;
+        }
+        .nav-dot.active .nav-tip {
+            display: none;   /* the caption already names the current chapter */
+        }
+        /* caption beside the active dot: map title + legend */
+        .nav-caption {
+            position: absolute;
+            right: 34px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+            white-space: nowrap;
+            pointer-events: none;
+            font-size: 1.15em;
+            line-height: 1.4;
+            transition: top 0.3s, opacity 0.2s;
+        }
+        .nav-caption.empty {
+            opacity: 0;
+        }
+        #chapter-nav:has(.nav-dot:not(.active):hover) .nav-caption {
+            opacity: 0.15;   /* fade so the hover label is readable */
+        }
+        .nav-title {
+            font-style: italic;
+        }
+        .nav-legend > div {
+            display: flex;
+            align-items: center;
+            font-size: 0.85em;
+            margin-top: 4px;
+        }
+        .nav-legend span {
             display: inline-block;
             width: 12px;
             height: 12px;
@@ -211,8 +297,61 @@
                 line-height: 25px;
                 font-size: 1em;
             }
-            .map-legend {
-                display: none !important;
+            /* chapter nav becomes a compact pill at the bottom */
+            #chapter-nav {
+                top: auto;
+                bottom: 14px;
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                height: auto;
+                width: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 16px;
+                padding: 6px 14px;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+            }
+            .nav-track {
+                flex-direction: row;
+                width: 210px;
+                height: 22px;
+            }
+            .nav-line, .nav-fill {
+                top: 50%;
+                left: 11px;
+                width: auto;
+                height: 2px;
+                margin: -1px 0 0 0;
+            }
+            .nav-line {
+                right: 11px;
+                bottom: auto;
+            }
+            .nav-fill {
+                width: calc((100% - 22px) * var(--progress, 0));
+            }
+            .nav-tip {
+                display: none;
+            }
+            .nav-caption {
+                position: static;
+                transform: none;
+                background: none;
+                box-shadow: none;
+                padding: 0 0 2px;
+                font-size: 0.95em;
+                text-align: center;
+            }
+            .nav-caption.empty {
+                display: none;
+            }
+            .nav-legend {
+                display: flex;
+                justify-content: center;
+                gap: 12px;
             }
 
         }
@@ -241,10 +380,13 @@
 
     <div id="map"></div>
     <div id="story"></div>
-    <div id="map-legend" class="map-legend">
-<!--        <h4>Legend</h4>-->
-<!--        <div><span style="background-color: #007cbf;"></span> Example Layer</div>-->
-    </div>
+    <nav id="chapter-nav" aria-label="Chapters">
+        <div class="nav-caption empty" aria-live="polite"></div>
+        <div class="nav-track">
+            <div class="nav-line"></div>
+            <div class="nav-fill"></div>
+        </div>
+    </nav>
 
     <script src="./config.js"></script>
     <script>
@@ -289,22 +431,6 @@
             });
         }
 
-
-        function setLegend(layer){
-            console.log(layer);
-            const legend = document.getElementById('map-legend');
-
-
-
-
-                const item = document.createElement('div');
-                const colorBox = document.createElement('span');
-                colorBox.style.backgroundColor = layer.color;
-                item.appendChild(colorBox);
-                item.appendChild(document.createTextNode(layer.layer));
-                legend.appendChild(item);
-
-        }
 
         var story = document.getElementById('story');
         var features = document.createElement('div');
@@ -380,6 +506,70 @@
         });
 
         story.appendChild(features);
+
+        // ---------- Chapter navigation rail ----------
+        // One dot per (non-hidden) chapter; hover shows the chapter title, click scrolls there.
+        // The caption beside the active dot shows the chapter's mapTitle and legend from config.js.
+        var chapterNav = document.getElementById('chapter-nav');
+        var navTrack = chapterNav.querySelector('.nav-track');
+        var navCaption = chapterNav.querySelector('.nav-caption');
+        var navChapters = config.chapters.filter(function (c) { return !c.hidden; });
+        var navDots = navChapters.map(function (c) {
+            var dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'nav-dot';
+            dot.setAttribute('aria-label', c.title);
+            var tip = document.createElement('span');
+            tip.className = 'nav-tip';
+            tip.textContent = c.title;
+            dot.appendChild(tip);
+            dot.addEventListener('click', function () {
+                var step = document.getElementById(c.id);
+                // land with the card near the top; scrollama then fires this chapter
+                var top = step.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.15;
+                window.scrollTo({ top: top, behavior: 'smooth' });
+            });
+            navTrack.appendChild(dot);
+            return dot;
+        });
+
+        function setNav(chapterId) {
+            var idx = navChapters.findIndex(function (c) { return c.id === chapterId; });
+            if (idx < 0) return;
+            var c = navChapters[idx];
+            navDots.forEach(function (dot, i) {
+                dot.classList.toggle('active', i === idx);
+                dot.classList.toggle('past', i < idx);
+                if (i === idx) dot.setAttribute('aria-current', 'step'); else dot.removeAttribute('aria-current');
+            });
+            chapterNav.style.setProperty('--progress', navDots.length > 1 ? idx / (navDots.length - 1) : 0);
+
+            navCaption.innerHTML = '';
+            var items = c.legend || [];
+            if (c.mapTitle) {
+                var title = document.createElement('div');
+                title.className = 'nav-title';
+                title.textContent = c.mapTitle;
+                navCaption.appendChild(title);
+            }
+            if (items.length > 0) {
+                var legend = document.createElement('div');
+                legend.className = 'nav-legend';
+                items.forEach(function (item) {
+                    var row = document.createElement('div');
+                    var swatch = document.createElement('span');
+                    swatch.style.backgroundColor = item.color;
+                    row.appendChild(swatch);
+                    row.appendChild(document.createTextNode(item.layer));
+                    legend.appendChild(row);
+                });
+                navCaption.appendChild(legend);
+            }
+            navCaption.classList.toggle('empty', !c.mapTitle && items.length === 0);
+            var dot = navDots[idx];
+            navCaption.style.top = (dot.offsetTop + dot.offsetHeight / 2) + 'px';   // sit beside the active dot
+        }
+        setNav(navChapters[0].id);
 
         var footer = document.createElement('div');
 
@@ -525,6 +715,17 @@
                 map.easeTo({ center: center, duration: 1000, easing: (t) => t });
             }
 
+            // Chapter camera: left-aligned cards cover the left ~45% of the screen, so pad the
+            // map on that side. Each chapter's `center` is then the region's true center and
+            // Mapbox places it in the middle of the open map. Phones (cards full width) get no padding.
+            function chapterCamera(chapter) {
+                var w = map.getContainer().clientWidth;
+                var left = (chapter.alignment === 'left' && w > 750) ? Math.round(w * 0.45) : 0;
+                return Object.assign({}, chapter.location, {
+                    padding: { left: left, right: 0, top: 0, bottom: 0 }
+                });
+            }
+
             let spinPending = null;     // chapter element waiting for its fly-in to finish
             let currentChapter = null;
             let restarting = false;
@@ -540,16 +741,19 @@
 
             // Mapbox animations jump if the window is resized mid-animation
             // (they keep using the old window size). Restart them from the current view.
+            // Also re-apply the left padding, since it's a share of the window width.
             map.on('resize', () => {
-                if (!map.isEasing()) return;
+                const wasEasing = map.isEasing();
                 restarting = true;
-                map.stop();
+                if (wasEasing) map.stop();
+                if (currentChapter) map.setPadding(chapterCamera(currentChapter).padding);
                 restarting = false;
                 if (spinning) {
                     spinStep();
-                } else if (currentChapter) {
-                    map[currentChapter.mapAnimation || 'flyTo'](currentChapter.location);
+                } else if (wasEasing && currentChapter) {
+                    map[currentChapter.mapAnimation || 'flyTo'](chapterCamera(currentChapter));
                 }
+                setNav(currentChapter ? currentChapter.id : navChapters[0].id);   // caption follows the dot's new spot
             });
             map.on('mousedown', () => { userInteracting = true; });
             map.on('touchstart', () => { userInteracting = true; });
@@ -576,7 +780,7 @@
 
                     response.element.classList.add('active');
                     currentChapter = chapter;
-                    map[chapter.mapAnimation || 'flyTo'](chapter.location);
+                    map[chapter.mapAnimation || 'flyTo'](chapterCamera(chapter));
 
                     if (config.showMarkers) {
                         marker.setLngLat(chapter.location.center);
@@ -608,24 +812,7 @@
                     }
 
 
-                    // Map title + legend box (bottom right). Shows the chapter's mapTitle
-                    // and, below it, any legend items; hidden if the chapter has neither.
-                    var legendBox = document.getElementById('map-legend');
-                    var legendItems = chapter.legend || [];
-                    legendBox.innerHTML = '';
-                    legendBox.classList.toggle('on-left', chapter.alignment === 'right');  // keep it off the text card
-                    if (chapter.mapTitle || legendItems.length > 0) {
-                        if (chapter.mapTitle) {
-                            var mapTitle = document.createElement('h4');
-                            mapTitle.className = 'map-title';
-                            mapTitle.textContent = chapter.mapTitle;
-                            legendBox.appendChild(mapTitle);
-                        }
-                        legendItems.forEach(setLegend);
-                        legendBox.style.display = 'block';
-                    } else {
-                        legendBox.style.display = 'none';
-                    }
+                    setNav(chapter.id);   // move the rail and caption to this chapter
                     if (config.auto) {
                         var next_chapter = (current_chapter + 1) % config.chapters.length;
                         map.once('moveend', () => {
